@@ -43,7 +43,7 @@ class City extends React.Component {
 
     const localResponse = await axios.get(locationURL);
 
-    let citySrc = localResponse.png;
+    let citySrc = localResponse;
 
     let displayName = cityInformation.display_name;
 
@@ -70,7 +70,7 @@ class City extends React.Component {
           <li>This City's Latitude is: {this.state.cityLat}</li>
           <li>This City's Longitude is: {this.state.cityLon}</li>
         </ul>
-        <div>{this.state.citySrc}</div>
+        <div><img alt = 'City Map' src={this.state.citySrc} /></div>
       </>
     );
   }

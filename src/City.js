@@ -13,7 +13,8 @@ class City extends React.Component {
       city: '',
       displayName: '',
       cityLon: 0,
-      cityLat: 0
+      cityLat: 0,
+      citySrc: ''
     };
   }
 
@@ -28,8 +29,6 @@ class City extends React.Component {
 
     let URL = `https://us1.locationiq.com/v1/search.php?key=${key}&q=${this.state.city}&format=json`;
 
-    // GET `https://us1.locationiq.com/v1/reverse.php?key=${key}&lat=LATITUDE&lon=LONGITUDE&format=json`
-
     const response = await axios.get(URL);
 
     console.log(response);
@@ -40,11 +39,18 @@ class City extends React.Component {
 
     let cityLat = cityInformation.lat;
 
+    let locationURL = `https://maps.locationiq.com/v3/staticmap?key=${key}&center=${cityLat},${cityLon}&zoom=2`
+
+    const localResponse = await axios.get(locationURL);
+
+    let citySrc = localResponse;
+
     let displayName = cityInformation.display_name;
 
     this.setState({displayName});
     this.setState({cityLat});
-    this.setState({cityLon})
+    this.setState({cityLon});
+    this.setState({citySrc});
 
   }
 
@@ -64,6 +70,7 @@ class City extends React.Component {
           <li>This City's Latitude is: {this.state.cityLat}</li>
           <li>This City's Longitude is: {this.state.cityLon}</li>
         </ul>
+        <div><img alt = 'City Map' src={this.state.citySrc} /></div>
       </>
     );
   }

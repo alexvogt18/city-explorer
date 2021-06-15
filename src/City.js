@@ -16,7 +16,8 @@ class City extends React.Component {
       displayName: '',
       cityLon: 0,
       cityLat: 0,
-      citySrc: ''
+      citySrc: '',
+      errMess: ''
     };
   }
 
@@ -27,7 +28,7 @@ class City extends React.Component {
   handleSubmit = async (e) => {
     e.preventDefault();
     
-    const key = process.env.REACT_APP_EXPLORER_API_KEY;
+    try{const key = process.env.REACT_APP_EXPLORER_API_KEY;
 
     let URL = `https://us1.locationiq.com/v1/search.php?key=${key}&q=${this.state.city}&format=json`;
 
@@ -47,8 +48,9 @@ class City extends React.Component {
     this.setState({cityLat});
     this.setState({cityLon});
     this.setState({citySrc});
-
-  }
+  } 
+    catch(err){ this.setState({errMess: err.message}); console.log(err.message) }
+}
   render() {
     return (
       <>
@@ -59,12 +61,18 @@ class City extends React.Component {
             <Button onClick = {this.handleSubmit}>Explore!</Button>
           </Form.Group>
         </Form>
-        <h2>{this.state.city}</h2>
-        <h2>{this.state.displayName}</h2>
-        <ul>
-          <li>This City's Latitude is: {this.state.cityLat}</li>
-          <li>This City's Longitude is: {this.state.cityLon}</li>
-        </ul>
+        {this.state.errMess.length > 0? 
+        <h2>{this.state.errMess}</h2>
+         :
+         <div>
+          <h2>{this.state.city}</h2>
+          <h2>{this.state.displayName}</h2>
+          <ul>
+            <li>This City's Latitude is: {this.state.cityLat}</li>
+            <li>This City's Longitude is: {this.state.cityLon}</li>
+          </ul>
+        </div>
+        }
         <Container>
           <Image src={this.state.citySrc} thumbnail />
         </Container>

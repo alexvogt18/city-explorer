@@ -3,6 +3,8 @@ import './App.css';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import axios from 'axios';
+import Image from 'react-bootstrap/Image';
+import Container from 'react-bootstrap/Container';
 
 
 class City extends React.Component {
@@ -31,19 +33,13 @@ class City extends React.Component {
 
     const response = await axios.get(URL);
 
-    console.log(response);
-
     const cityInformation = response.data[0];
 
     let cityLon = cityInformation.lon;
 
     let cityLat = cityInformation.lat;
 
-    let locationURL = `https://maps.locationiq.com/v3/staticmap?key=${key}&center=${cityLat},${cityLon}&zoom=2`
-
-    const localResponse = await axios.get(locationURL);
-
-    let citySrc = localResponse;
+    let citySrc = `https://maps.locationiq.com/v3/staticmap?key=${key}&center=${cityLat},${cityLon}&zoom=10&format=png`;
 
     let displayName = cityInformation.display_name;
 
@@ -53,7 +49,6 @@ class City extends React.Component {
     this.setState({citySrc});
 
   }
-
   render() {
     return (
       <>
@@ -70,7 +65,9 @@ class City extends React.Component {
           <li>This City's Latitude is: {this.state.cityLat}</li>
           <li>This City's Longitude is: {this.state.cityLon}</li>
         </ul>
-        <div><img alt = 'City Map' src={this.state.citySrc} /></div>
+        <Container>
+          <Image src={this.state.citySrc} thumbnail />
+        </Container>
       </>
     );
   }

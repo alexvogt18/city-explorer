@@ -2,10 +2,12 @@ import React from 'react';
 import './App.css';
 import City from './City.js';
 
-function App() {
-  return (
-    <City />
-  );
+class App extends React.Component {
+  render() {
+    return (
+      <City />
+    );
+    };
 }
 
 export default App;
